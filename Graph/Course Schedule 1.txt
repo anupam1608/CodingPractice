@@ -1,0 +1,52 @@
+Question :
+There are a total of numCourses courses you have to take, labeled from 0 to numCourses-1.
+Some courses may have prerequisites, for example to take course 0 you have to first 
+take course 1, which is expressed as a pair: [0,1]
+Given the total number of courses and a list of prerequisite pairs, 
+is it possible for you to finish all courses?
+
+Example:
+
+Input: numCourses = 2, prerequisites = [[1,0],[0,1]]
+Output: false
+
+Solution :
+
+1. DFS :-   if there is any cycle then it is not possible to complete courses
+2. Topological sort
+
+Code (using DFS) :
+    set<int> covered_courses;
+    
+    bool dfs(int current_course,vector<vector<int>>& prerequisites, vector<bool>& vis){
+        covered_courses.insert(current_course);
+        vis[current_course] = true;
+        for(int iterator = 0;iterator < prerequisites[current_course].size();iterator++){
+            if(covered_courses.find(prerequisites[current_course][iterator])!=covered_courses.end())
+                return false;
+            if(!vis[prerequisites[current_course][iterator]]){
+                if(!dfs(prerequisites[current_course][iterator],prerequisites,vis))
+                    return false;
+            }
+        }
+        
+        covered_courses.erase(covered_courses.find(current_course));
+        return true;
+        
+    }
+    bool canFinish(int numCourses, vector<vector<int>>& prerequisites) {
+        vector<bool> vis(numCourses,false);
+        vector<vector<int>>graph(numCourses);
+        for(int i = 0;i<prerequisites.size();i++){
+            graph[prerequisites[i][1]].push_back(prerequisites[i][0]);
+        }
+        for(int i = 0 ;i < numCourses;i++){
+            if(!vis[i]){
+                if(!dfs(i,graph,vis))
+                    return false;
+            }
+        }
+        return true;
+        
+    }
+                    
