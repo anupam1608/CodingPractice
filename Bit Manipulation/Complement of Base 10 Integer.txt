@@ -1,0 +1,18 @@
+Quetion :   Given a positive integer, output its complement number. 
+            The complement strategy is to flip the bits of its binary representation.
+
+Example 1:  Input: 5
+            Output: 2
+            Explanation: 5 is "101" in binary, with complement "010" in binary, which 
+            is 2 in base-10.
+
+Solution :  input + output = 111....11 in binary format
+            N + bitwiseComplement(N) = 11....11 = X
+            bitwiseComplement(N) = X - N
+Code :
+            int bitwiseComplement(int N) {
+                int x = 1;
+                while(N>x) x = x * 2 + 1;
+                return x - N;
+        
+            }
