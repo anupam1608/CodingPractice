@@ -1,0 +1,25 @@
+Question :  Given an array of size n, find the majority element. 
+            The majority element is the element that appears more than ⌊ n/2 ⌋ times.
+            You may assume that the array is non-empty and the majority element always 
+            exist in the array.
+
+Solution :  we maintain a count, which is incremented whenever we see an instance of our 
+            current candidate for majority element and decremented whenever we see 
+            anything else. Whenever count equals 0, we effectively forget about 
+            everything in nums up to the current index and consider the current number as
+            the candidate for majority element.
+
+Time complexity :   O(n)
+space complexity :  O(1)
+
+Code :  int majorityElement(vector<int>& nums) {
+        int count = 0, candidate = 0;
+        for(int x:nums){
+            if(count == 0)
+                candidate = x;
+            
+                count += (x == candidate) ? 1 : -1;
+        }
+        return candidate;
+        
+    }
